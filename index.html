@@ -3244,16 +3244,12 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="header-section-number">1</span> Setup</a></li>
-  <li><a href="#tasks-and-inputs" id="toc-tasks-and-inputs" class="nav-link" data-scroll-target="#tasks-and-inputs"><span class="header-section-number">2</span> <strong>Tasks and inputs</strong></a>
-  <ul class="collapse">
-  <li><a href="#task-1-write-your-own-functions" id="toc-task-1-write-your-own-functions" class="nav-link" data-scroll-target="#task-1-write-your-own-functions"><span class="header-section-number">2.1</span> <strong>Task 1: Write your own functions</strong></a></li>
-  <li><a href="#task-2-prepare-analysis" id="toc-task-2-prepare-analysis" class="nav-link" data-scroll-target="#task-2-prepare-analysis"><span class="header-section-number">2.2</span> <strong>Task 2: Prepare Analysis</strong></a></li>
-  <li><a href="#task-3-create-join-key" id="toc-task-3-create-join-key" class="nav-link" data-scroll-target="#task-3-create-join-key"><span class="header-section-number">2.3</span> <strong>Task 3: Create Join Key</strong></a></li>
-  <li><a href="#task-4-measuring-distance-at-concurrent-locations" id="toc-task-4-measuring-distance-at-concurrent-locations" class="nav-link" data-scroll-target="#task-4-measuring-distance-at-concurrent-locations"><span class="header-section-number">2.4</span> <strong>Task 4: Measuring distance at concurrent locations</strong></a></li>
-  <li><a href="#task-5-visualize-data" id="toc-task-5-visualize-data" class="nav-link" data-scroll-target="#task-5-visualize-data"><span class="header-section-number">2.5</span> <strong>Task 5: Visualize data</strong></a></li>
-  </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">3</span> <strong>References</strong></a></li>
+  <li><a href="#write-your-own-functions" id="toc-write-your-own-functions" class="nav-link active" data-scroll-target="#write-your-own-functions"><span class="header-section-number">1</span> <strong>Write your own functions</strong></a></li>
+  <li><a href="#prepare-analysis" id="toc-prepare-analysis" class="nav-link" data-scroll-target="#prepare-analysis"><span class="header-section-number">2</span> <strong>Prepare Analysis</strong></a></li>
+  <li><a href="#create-join-key" id="toc-create-join-key" class="nav-link" data-scroll-target="#create-join-key"><span class="header-section-number">3</span> <strong>Create Join Key</strong></a></li>
+  <li><a href="#measuring-distance-at-concurrent-locations" id="toc-measuring-distance-at-concurrent-locations" class="nav-link" data-scroll-target="#measuring-distance-at-concurrent-locations"><span class="header-section-number">4</span> <strong>Measuring distance at concurrent locations</strong></a></li>
+  <li><a href="#visualize-data" id="toc-visualize-data" class="nav-link" data-scroll-target="#visualize-data"><span class="header-section-number">5</span> <strong>Visualize data</strong></a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6</span> <strong>References</strong></a></li>
   </ul>
 </nav>
 </div>
@@ -3285,21 +3281,16 @@ window.Quarto = {
 
 
 <p>exercise 5, part of the course cma (mainly based on <span class="citation" data-cites="Laube2014">Laube (<a href="#ref-Laube2014" role="doc-biblioref">2014</a>)</span>)</p>
-<section id="abstract" class="level1 unnumbered unlisted">
-<h1 class="unnumbered unlisted">Abstract</h1>
-</section>
-<section id="setup" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Setup</h1>
+<section id="setup" class="level1 unnumbered unlisted">
+<h1 class="unnumbered unlisted">Setup</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(<span class="st">&quot;readr&quot;</span>, <span class="st">&quot;sf&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>,<span class="st">&quot;RColorBrewer&quot;</span>,<span class="st">&quot;tidyr&quot;</span>,<span class="st">&quot;lubridate&quot;</span>,<span class="st">&quot;knitr&quot;</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>() <span class="sc">|&gt;</span> <span class="fu">theme_set</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="tasks-and-inputs" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> <strong>Tasks and inputs</strong></h1>
-<section id="task-1-write-your-own-functions" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="task-1-write-your-own-functions"><span class="header-section-number">2.1</span> <strong>Task 1: Write your own functions</strong></h2>
+<section id="write-your-own-functions" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> <strong>Write your own functions</strong></h1>
 <p>Create the following two functions:</p>
 <ol type="1">
 <li>A function which calculates a persons BMI based on their height and weight (<a href="#eq-bim" class="quarto-xref">Equation 1</a>) <span id="eq-bim"><span class="math display">\[
@@ -3332,8 +3323,8 @@ Farenheight = Celsius * 1.8 +32
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="task-2-prepare-analysis" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="task-2-prepare-analysis"><span class="header-section-number">2.2</span> <strong>Task 2: Prepare Analysis</strong></h2>
+<section id="prepare-analysis" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> <strong>Prepare Analysis</strong></h1>
 <p>In the next tasks we will look for “meet” patterns in our wild boar data. To simplify this, we will only use a subset of our wild boar data: The individuals <em>Rosa</em> and <em>Sabi</em> for the timespan <em>01.04.2015 - 15.04.2015</em>. Use the dataset <code>wildschwein_BE_2056.csv</code> (on moodle). Import the csv as a data.frame and filter it with the aforementioned criteria. You do not need to convert the data.frame to an <code>sf</code> object.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_wild_boar <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">&quot;data/wildschwein_BE_2056.csv&quot;</span>) <span class="sc">|&gt;</span> </span>
@@ -3460,8 +3451,8 @@ Table 1: Wild boar data
 </div>
 </div>
 </section>
-<section id="task-3-create-join-key" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="task-3-create-join-key"><span class="header-section-number">2.3</span> <strong>Task 3: Create Join Key</strong></h2>
+<section id="create-join-key" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> <strong>Create Join Key</strong></h1>
 <p>Have a look at your dataset. You will notice that samples are taken at every full hour, quarter past, half past and quarter to. The sampling time is usually off by a couple of seconds.</p>
 <p>To compare Rosa and Sabi’s locations, we first need to match the two animals <em>temporally</em>. For that we can use a <code>join</code>, but need <em>identical</em> time stamps to serve as a join key. We therefore need to slightly adjust our time stamps to a common, concurrent interval.</p>
 <p>The task is therfore to round the minutes of <code>DatetimeUTC</code> to a multiple of 15 (00, 15, 30, 45) and store the values in a new column.</p>
@@ -3564,8 +3555,8 @@ Table 2: Wild boar data with rounded datetime.
 </div>
 </div>
 </section>
-<section id="task-4-measuring-distance-at-concurrent-locations" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="task-4-measuring-distance-at-concurrent-locations"><span class="header-section-number">2.4</span> <strong>Task 4: Measuring distance at concurrent locations</strong></h2>
+<section id="measuring-distance-at-concurrent-locations" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> <strong>Measuring distance at concurrent locations</strong></h1>
 <p>To measure the distance between concurrent locations, we need to follow the following steps.</p>
 <ol type="1">
 <li>Split the <code>df_wild_boar_t3</code> object into one <code>data.frame</code> per animal</li>
@@ -3607,8 +3598,8 @@ Table 2: Wild boar data with rounded datetime.
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="task-5-visualize-data" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="task-5-visualize-data"><span class="header-section-number">2.5</span> <strong>Task 5: Visualize data</strong></h2>
+<section id="visualize-data" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> <strong>Visualize data</strong></h1>
 <p>Now, visualize the <em>meets</em> spatially in a way that you think reasonable. For example in the plot as shows below. To produce this plot we:</p>
 <ul>
 <li><p>Used the individual dataframes from <code>rosa</code> and <code>sabi</code> (from the previous task)</p></li>
@@ -3643,9 +3634,8 @@ Figure 1: Wild boars; where Rosa and Sabi meets
 </div>
 </div>
 </section>
-</section>
-<section id="references" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> <strong>References</strong></h1>
+<section id="references" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> <strong>References</strong></h1>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-Laube2014" class="csl-entry" role="listitem">
 Laube, Patrick. 2014. <em>Computational Movement Analysis</em>. 2014th ed. SpringerBriefs in Computer Science. Cham: Springer International Publishing AG.
