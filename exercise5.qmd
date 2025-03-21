@@ -69,7 +69,7 @@ euclidean_distance <- function(x1, y1, x2, y2) {
 In the next tasks we will look for “meet” patterns in our wild boar data. To simplify this, we will only use a subset of our wild boar data: The individuals *Rosa* and *Sabi* for the timespan *01.04.2015 - 15.04.2015*. Use the dataset `wildschwein_BE_2056.csv` (on moodle). Import the csv as a data.frame and filter it with the aforementioned criteria. You do not need to convert the data.frame to an `sf` object.
 
 ```{r}
-df_wildschwein <- read_delim("data/wildschwein_BE_2056.csv") |> 
+df_wild_boar <- read_delim("data/wildschwein_BE_2056.csv") |> 
   mutate(across(where(is.character), as.factor)) |> 
   filter(
     TierName %in% c("Rosa", "Sabi"),
@@ -78,18 +78,17 @@ df_wildschwein <- read_delim("data/wildschwein_BE_2056.csv") |>
       as.POSIXct("2015-04-15 23:59:59", tz = "UTC"))
   )
 
-df_wildschwein |> str()
-df_wildschwein |> summary()
+df_wild_boar |> str()
+df_wild_boar |> summary()
   
 ```
 
 ```{r}
-#| label: tbl-wildschwein-t2
+#| label: tbl-wild-boar-t2
 #| tbl-cap: "Wild boar data"
 
-df_wildschwein |> head() |> kable()
+df_wild_boar |> head() |> kable()
 ```
-
 
 ## **Task 3: Create Join Key**
 
@@ -101,7 +100,7 @@ The task is therfore to round the minutes of `DatetimeUTC` to a multiple of 15 (
 
 ```{r}
 
-df_wildschwein_t3 <- df_wildschwein |> 
+df_wild_boar_t3 <- df_wild_boar |> 
   mutate(
     DatetimeRound = DatetimeUTC |> round_date(unit = "15 minutes")
   )
@@ -109,11 +108,84 @@ df_wildschwein_t3 <- df_wildschwein |>
 ```
 
 ```{r}
-#| label: tbl-wildschwein-t3
+#| label: tbl-wild-boar-t3
 #| tbl-cap: "Wild boar data with rounded datetime."
 
-df_wildschwein_t3 |> head() |> kable()
+df_wild_boar_t3 |> head() |> kable()
 ```
+
+## **Task 4: Measuring distance at concurrent locations**
+
+To measure the distance between concurrent locations, we need to follow the following steps.
+
+1.  Split the `df_wild_boar_t3` object into one `data.frame` per animal
+
+```{r}
+df_wild_boar_Rosa <- df_wild_boar_t3 |> 
+  filter(TierName == "Rosa")
+
+df_wild_boar_Sabi <- df_wild_boar_t3 |> 
+  filter(TierName == "Sabi")
+```
+
+2.  Join these datasets by the new `Datetime` column created in the last task. The joined observations are *temporally close*.
+
+```{r}
+df_wild_boar_joined <- left_join(
+  df_wild_boar_Sabi,
+  df_wild_boar_Rosa,
+  join_by(DatetimeRound),
+  suffix = c("_Sabi", "_Rosa")
+)
+```
+
+3.  In the joined dataset, calculate Euclidean distances between concurrent observations and store the values in a new column
+
+```{r}
+df_wild_boar_dist <- df_wild_boar_joined |> 
+  mutate(
+    dist = euclidean_distance(E_Sabi,N_Sabi,E_Rosa,N_Rosa)
+  )
+```
+
+4.  Use a reasonable threshold on `distance` to determine if the animals are also *spatially close* enough to constitute a *meet* (we use 100 meters). Store this Boolean information (`TRUE`/`FALSE`) in a new column
+
+```{r}
+df_wild_boar_t4 <- df_wild_boar_dist |> 
+  mutate(
+    meet = (dist^2)^0.5 <= 100
+  )
+```
+
+## **Task 5: Visualize data**
+
+Now, visualize the *meets* spatially in a way that you think reasonable. For example in the plot as shows below. To produce this plot we:
+
+-   Used the individual dataframes from `rosa` and `sabi` (from the previous task)
+
+-   Used the joined dataset (also from the previous task), filtered to only the meets
+
+-   Manually changed the x and y axis limits
+
+```{r}
+#| label: fig-wild-boar
+#| fig-cap: "Wild boars; where Rosa and Sabi meets"
+df_wild_boar_t4 |> 
+  filter(meet) |> 
+  arrange(DatetimeRound) |> 
+  ggplot()+
+    geom_point(data=df_wild_boar_Rosa,aes(E,N,color=TierName),alpha=0.2)+
+    geom_point(data=df_wild_boar_Sabi,aes(E,N,color=TierName),alpha=0.2)+
+    geom_point(aes(E_Rosa,N_Rosa,fill=TierName_Rosa), shape = 21, size = 2,color="black")+
+    geom_point(aes(E_Sabi,N_Sabi,fill=TierName_Sabi), shape = 21, size = 2,color="black")+
+  coord_equal()+    
+  guides(
+    color = guide_legend(title = "Regular Locations"),
+    fill = guide_legend(title = "Meets")
+  )
+  
+```
+
 
 # **References**
 
